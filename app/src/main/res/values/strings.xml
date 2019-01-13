@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">Cartoon</string>
+    <string name="hintText">Enter Show Name Here</string>
+    <string name="button">GO!</string>
+    <string name="clear">Clear</string>
+    <string name="buttonRetry">Retry with longer delay?</string>
+</resources>
