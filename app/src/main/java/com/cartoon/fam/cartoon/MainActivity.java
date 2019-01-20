@@ -1,5 +1,6 @@
 package com.cartoon.fam.cartoon;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.SystemClock;
@@ -7,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
@@ -108,6 +110,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Boolean testCase = false;
+
                 for (String check : listItemsShows) {
                     if (check.toLowerCase().equals(editText.getText().toString().toLowerCase())) {
                         testCase = true;
@@ -134,11 +137,17 @@ public class MainActivity extends AppCompatActivity {
                     //String episodeTitle = episode.getItemAtPosition(position).toString();
                     editText.setText(listView.getItemAtPosition(position).toString());
                 }
+
+                InputMethodManager imm = (InputMethodManager) getSystemService(MainActivity.INPUT_METHOD_SERVICE);
+                imm.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
             }
         });
     }
 
     public void go(View view) {
+        InputMethodManager imm = (InputMethodManager) getSystemService(MainActivity.INPUT_METHOD_SERVICE);
+        imm.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
+
         if(showLinks.isEmpty()) {
             EditText editText = findViewById(R.id.editText);
             Element foundLink = null;

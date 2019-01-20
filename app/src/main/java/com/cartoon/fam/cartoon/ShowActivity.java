@@ -29,7 +29,7 @@ public class ShowActivity extends AppCompatActivity {
 
     String firstHop = null;
 
-    ArrayList finalLinks = new ArrayList();
+    ArrayList<String> finalLinks = new ArrayList<String>();
 
     public static int delay = 3;
 
@@ -73,12 +73,13 @@ public class ShowActivity extends AppCompatActivity {
                 try {
                     if (firstHop == null) {
                         //Log.d("HTMLTEST", "HTMLTEST");
-                        scrapedPage = html;
-                        Document outHTML = Jsoup.parse(scrapedPage);
 
-                        if (outHTML != null) {
+                        try {
+                            scrapedPage = html;
+                            Document outHTML = Jsoup.parse(scrapedPage);
+
                             firstHop = ("https://www.thewatchcartoononline.tv" + (outHTML.getElementsByTag("iframe").get(1)).attr("src"));
-                        } else {
+                        } catch(Error e) {
                             TextView textView = findViewById(R.id.textView);
                             textView.setText(("DOCUMENT LOADED TOO SLOWLY!"));
                             textView.bringToFront();
@@ -89,22 +90,35 @@ public class ShowActivity extends AppCompatActivity {
                         }
                     } else if (!finished) {
                         //Log.d("HTMLTEST", "HTMLTEST");
-                        scrapedPage = html;
-                        Document outHTML = Jsoup.parse(scrapedPage);
+                        try {
+                            scrapedPage = html;
+                            Document outHTML = Jsoup.parse(scrapedPage);
 
-                        finalLinks.clear();
+                            finalLinks.clear();
 
-                        for (Element link : outHTML.getElementsByTag("script")) {
-                            if (link.toString().contains("http") && !link.toString().contains("google-analytics.com/analytics") && link.toString().length() > 100) {
-                                for (String url : link.toString().split("'")) {
-                                    if (url.contains("http")) {
-                                        finalLinks.add(url);
+                            for (Element link : outHTML.getElementsByTag("script")) {
+                                if (link.toString().contains("http") && !link.toString().contains("google-analytics.com/analytics") && link.toString().length() > 100) {
+                                    for (String url : link.toString().split("'")) {
+                                        if (url.contains("http")) {
+                                            finalLinks.add(url);
+                                        }
                                     }
                                 }
                             }
+                            finished = true;
+                            //Log.d("HTMLTEST", "HTMLTEST");
+                        } catch (Error e) {
+                            finished = false;
+                            TextView textView = findViewById(R.id.textView);
+                            textView.bringToFront();
+
+                            textView.setText(("Link grab failed, retrying with longer delay..."));
+
+                            SystemClock.sleep(1000);
+
+                            delay+=3;
+                            recreate();
                         }
-                        finished = true;
-                        //Log.d("HTMLTEST", "HTMLTEST");
                     }
                 } catch(Error e) {
                     TextView textView = findViewById(R.id.textView);

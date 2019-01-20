@@ -46,14 +46,11 @@
 
     <WebView
         android:id="@+id/webView"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginBottom="8dp"
+        android:layout_width="1dp"
+        android:layout_height="1dp"
         android:clickable="true"
         android:focusable="true"
         android:focusableInTouchMode="true"
-        app:layout_constraintBottom_toTopOf="@+id/buttonDelay"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 </android.support.constraint.ConstraintLayout>
